@@ -50,17 +50,14 @@ for i in range(total_fuerza):
     magnitud = math.hypot(x, y)
     fuerzas_info.append((x, y, angulo, magnitud))
 
-# Datos del bloque
 peso_bloque = float(input("\nIngrese la masa del bloque en kilogramos: "))
 
-# Fuerza neta y aceleración
 fuerza_magnitud = math.hypot(suma_x, suma_y)
 fuerza_angulo = obtener_angulo(suma_x, suma_y)
 aceleracion_ejex = suma_x / peso_bloque
 aceleracion_ejey = suma_y / peso_bloque
 aceleracion_magnitud = math.hypot(aceleracion_ejex, aceleracion_ejey)
 
-# Mostrar resultados
 print("\n--- Resultados ---")
 print(f"Fuerza neta en X: {suma_x:.2f} N")
 print(f"Fuerza neta en Y: {suma_y:.2f} N")
@@ -70,7 +67,6 @@ print(f"Aceleración en X: {aceleracion_ejex:.2f} m/s²")
 print(f"Aceleración en Y: {aceleracion_ejey:.2f} m/s²")
 print(f"Magnitud de la aceleración: {aceleracion_magnitud:.2f} m/s²")
 
-# Gráfica de diagrama de cuerpo libre
 plt.figure()
 plt.title("Diagrama de Cuerpo Libre")
 plt.xlabel("Eje X (N)")
@@ -79,11 +75,9 @@ plt.grid(True)
 plt.axhline(0, color='black')
 plt.axvline(0, color='black')
 
-# Círculo de referencia de direcciones
 circle = plt.Circle((0, 0), 4, color='gray', fill=False, linestyle='dotted')
 plt.gca().add_patch(circle)
 
-# Flechas angulares de referencia
 for angulo_ref in range(0, 360, 45):
     x_ref = 4 * math.cos(math.radians(angulo_ref))
     y_ref = 4 * math.sin(math.radians(angulo_ref))
@@ -91,10 +85,8 @@ for angulo_ref in range(0, 360, 45):
               head_width=0.15, head_length=0.15, fc='gray', ec='gray', length_includes_head=True, alpha=0.4)
     plt.text(x_ref*1.1, y_ref*1.1, f"{angulo_ref}°", fontsize=8, ha='center', color='gray')
 
-# Bloque en el origen
 plt.plot(0, 0, 'ks', markersize=10, label='Bloque')
 
-# Flechas de fuerzas aplicadas
 for i, (fx, fy, angulo, magnitud) in enumerate(fuerzas_info):
     if i == 0:
         plt.arrow(0, 0, fx, fy, head_width=0.7, head_length=0.7, fc='blue', ec='blue', length_includes_head=True, label='Fuerzas Aplicadas')
@@ -103,16 +95,13 @@ for i, (fx, fy, angulo, magnitud) in enumerate(fuerzas_info):
     texto = f"F{i+1}\n({fx:.1f}, {fy:.1f}) N\n{angulo:.1f}°"
     plt.text(fx*1.07, fy*1.07, texto, fontsize=8, color='blue')
 
-# Flecha fuerza neta
 plt.arrow(0, 0, suma_x, suma_y, head_width=0.7, head_length=0.7, fc='red', ec='red', length_includes_head=True, label='Fuerza Neta')
 texto_neta = f"F neta\n({suma_x:.1f}, {suma_y:.1f}) N\n{fuerza_angulo:.1f}°"
 plt.text(suma_x*1.05, suma_y*1.05, texto_neta, fontsize=9, color='red')
 
-# Leyenda y límites
 plt.legend(loc='upper left')
 plt.axis('equal')
 
-# Ajuste de rango automático
 max_range = max([abs(max([fx for fx, _, _, _ in fuerzas_info] + [fy for _, fy, _, _ in fuerzas_info] + [suma_x, suma_y, 4])),
                  abs(min([fx for fx, _, _, _ in fuerzas_info] + [fy for _, fy, _, _ in fuerzas_info] + [suma_x, suma_y, -4]))])
 plt.xlim(-max_range-1, max_range+1)
